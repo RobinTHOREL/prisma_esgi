@@ -1,7 +1,8 @@
-const { createPost } = require('./Mutations/mutationPost')
+const { createPost, updatePost } = require('./Mutations/mutationPost')
 
 const Mutation = {
-    createPost
+    createPost,
+    updatePost
 }
 
 module.exports = {
