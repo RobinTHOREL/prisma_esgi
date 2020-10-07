@@ -1,0 +1,5 @@
+# import User, Query.user, Query.users, Mutation.updateUser, Mutation.createUser, Mutation.deleteUser, from "./generated/prisma.graphql"
+
+type Query {
+    me: User
+}
