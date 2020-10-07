@@ -9,7 +9,7 @@ const server = new GraphQLServer({
   context: req => ({
     req,
     prisma: new Prisma({
-      typeDefs: './../generated/prisma.graphql',
+      typeDefs: 'src/generated/prisma.graphql',
       endpoint:
         process.env.URL_DB_PRISMA,
     }),
