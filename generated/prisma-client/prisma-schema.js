@@ -15,6 +15,8 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
@@ -53,6 +55,8 @@ type Post {
   id: ID!
   content: String!
   author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type PostConnection {
@@ -87,11 +91,17 @@ enum PostOrderByInput {
   id_DESC
   content_ASC
   content_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type PostPreviousValues {
   id: ID!
   content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input PostScalarWhereInput {
@@ -123,6 +133,22 @@ input PostScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   NOT: [PostScalarWhereInput!]
@@ -221,6 +247,22 @@ input PostWhereInput {
   content_ends_with: String
   content_not_ends_with: String
   author: UserWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]
@@ -240,6 +282,11 @@ type Query {
   node(id: ID!): Node
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -250,6 +297,9 @@ type User {
   name: String!
   email: String!
   password: String!
+  role: Role
+  createdAt: DateTime!
+  updatedAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -264,6 +314,7 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
+  role: Role
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -277,6 +328,7 @@ input UserCreateWithoutPostsInput {
   name: String!
   email: String!
   password: String!
+  role: Role
 }
 
 type UserEdge {
@@ -293,6 +345,12 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  role_ASC
+  role_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
@@ -300,6 +358,9 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  role: Role
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -324,6 +385,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  role: Role
   posts: PostUpdateManyWithoutAuthorInput
 }
 
@@ -331,6 +393,7 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -344,6 +407,7 @@ input UserUpdateWithoutPostsDataInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserUpsertWithoutPostsInput {
@@ -408,6 +472,26 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  role: Role
+  role_not: Role
+  role_in: [Role!]
+  role_not_in: [Role!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput

@@ -21,8 +21,8 @@ async function signup (_, args, context, info) {
   }
 }
 
-async function login (parent, { email, password }, ctx, info) {
-    const user = await ctx.prisma.query.user({ where: { email } }, info)
+async function login (parent, {email, password}, ctx, info) {
+    const user = await ctx.prisma.query.user({ where: { email } }, '{ id name email password }')
     
     if (!user) {
       throw new Error(`No such user found for email: ${email}`)

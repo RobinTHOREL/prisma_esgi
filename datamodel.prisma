@@ -3,6 +3,9 @@ type User {
   name: String!
   email: String! @unique
   password: String!
+  role: Role @default(value: USER)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   posts: [Post]!
 }
 
@@ -10,4 +13,11 @@ type Post {
   id: ID! @id
   content: String!
   author: User!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }

@@ -7,13 +7,12 @@ async function getUser(ctx) {
   if (Authorization && Authorization !== 'null') {
     const token = Authorization;
     const { userId } = jwt.verify(token, APP_SECRET)
-    const user = await ctx.prisma.query.user({ where: { id: userId } }, '{ id name email createdAt updatedAt role posts { id content } }')
+    const user = await ctx.prisma.query.user({ where: { id: userId } }, '{ id name email posts { id content } }')
     return user
   } else {  
     throw new AuthError()
   }
 }
-
 
 class AuthError extends Error {
   constructor() {

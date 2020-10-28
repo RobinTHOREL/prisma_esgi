@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Oct 28 2020 11:10:37 GMT+0100 (Central European Standard Time)
+# timestamp: Wed Oct 28 2020 12:23:25 GMT+0100 (Central European Standard Time)
 
 type AggregatePost {
   count: Int!
@@ -13,6 +13,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 """Raw JSON value"""
 scalar Json
@@ -70,6 +72,8 @@ type Post implements Node {
   id: ID!
   content: String!
   author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 """A connection to a list of items."""
@@ -112,11 +116,17 @@ enum PostOrderByInput {
   id_DESC
   content_ASC
   content_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type PostPreviousValues {
   id: ID!
   content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input PostScalarWhereInput {
@@ -208,6 +218,50 @@ input PostScalarWhereInput {
 
   """All values not ending with the given string."""
   content_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
 }
 
 type PostSubscriptionPayload {
@@ -381,6 +435,50 @@ input PostWhereInput {
 
   """All values not ending with the given string."""
   content_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
   author: UserWhereInput
 }
 
@@ -407,6 +505,11 @@ type Query {
   ): Node
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
@@ -417,6 +520,9 @@ type User implements Node {
   name: String!
   email: String!
   password: String!
+  role: Role
+  createdAt: DateTime!
+  updatedAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -435,6 +541,7 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
+  role: Role
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -448,6 +555,7 @@ input UserCreateWithoutPostsInput {
   name: String!
   email: String!
   password: String!
+  role: Role
 }
 
 """An edge in a connection."""
@@ -468,6 +576,12 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  role_ASC
+  role_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
@@ -475,6 +589,9 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  role: Role
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -518,6 +635,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  role: Role
   posts: PostUpdateManyWithoutAuthorInput
 }
 
@@ -525,6 +643,7 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -538,6 +657,7 @@ input UserUpdateWithoutPostsDataInput {
   name: String
   email: String
   password: String
+  role: Role
 }
 
 input UserUpsertWithoutPostsInput {
@@ -714,6 +834,60 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  role: Role
+
+  """All values that are not equal to given value."""
+  role_not: Role
+
+  """All values that are contained in given list."""
+  role_in: [Role!]
+
+  """All values that are not contained in given list."""
+  role_not_in: [Role!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
