@@ -1,8 +1,10 @@
 const { forwardTo } = require('prisma-binding')
+const { getUser } = require('../../utils')
 
 async function createPost (parent, args, ctx, info) {
-  //TODO : enlever le require sur le author dans la mutation // mettre le author grâce a son JWT sinon Not Authorized
-    return forwardTo('prisma')(parent, args, ctx, info)
+  const requesterUser = await getUser(ctx)
+  args.data.author.connect.id = requesterUser.id
+  return forwardTo('prisma')(parent, args, ctx, info)
 }
 
 async function updatePost (parent, args, ctx, info) {
